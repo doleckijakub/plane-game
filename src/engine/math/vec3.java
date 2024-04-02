@@ -4,9 +4,6 @@ import java.util.Locale;
 
 public class vec3 {
 
-<<<<<<< HEAD
-    public static final vec3 UP = new vec3(0, 1, 0);
-=======
     public static final vec3 ZERO = new vec3(0, 0, 0);
     public static final vec3 UP = new vec3(0, 1, 0);
     public static final vec3 DOWN = new vec3(0, -1, 0);
@@ -14,7 +11,6 @@ public class vec3 {
     public static final vec3 RIGHT = new vec3(1, 0, 0);
     public static final vec3 FORWARD = new vec3(0, 0, 1);
     public static final vec3 BACK = new vec3(0, 0, -1);
->>>>>>> b07eb8b (Some updates idk really)
 
     public float x, y, z;
 

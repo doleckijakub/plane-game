@@ -21,11 +21,8 @@ public class Color {
     public static final Color RED   = new Color(0xFF0000);
     public static final Color GREEN = new Color(0x00FF00);
     public static final Color BLUE  = new Color(0x0000FF);
-<<<<<<< HEAD
-=======
     public static final Color BLACK = new Color(0x000000);
     public static final Color CYAN  = new Color(0x00FFFF);
->>>>>>> b07eb8b (Some updates idk really)
 
     public static Color random() {
         return new Color((float) Math.random(), (float) Math.random(), (float) Math.random());

@@ -1,10 +1,7 @@
 package engine.math;
 
-<<<<<<< HEAD
-=======
 import java.util.Locale;
 
->>>>>>> b07eb8b (Some updates idk really)
 public class vec2 {
 
     public float x, y;
@@ -14,11 +11,6 @@ public class vec2 {
         this.y = y;
     }
 
-<<<<<<< HEAD
-    public static vec2 random() {
-        return new vec2((float) Math.random(), (float) Math.random());
-    }
-=======
     public vec2(float x) {
         this(x, x);
     }
@@ -43,5 +35,4 @@ public class vec2 {
                 x, y);
     }
 
->>>>>>> b07eb8b (Some updates idk really)
 }

@@ -71,17 +71,6 @@ public class Shader implements AutoCloseable {
     }
 
     public void setUniform(String name, float v0) {
-<<<<<<< HEAD
-        glUniform1f(getUniformLocation(name), v0);
-    }
-
-    public void setUniform(String name, Texture texture) {
-        glUniform1i(getUniformLocation(name), texture.getId());
-    }
-
-    public void setUniform(String name, mat4 matrix) {
-=======
-        bind();
         glUniform1f(getUniformLocation(name), v0);
     }
 
@@ -93,15 +82,11 @@ public class Shader implements AutoCloseable {
 
     public void setUniform(String name, mat4 matrix) {
         bind();
->>>>>>> b07eb8b (Some updates idk really)
         glUniformMatrix4fv(getUniformLocation(name), true, matrix.toArray());
     }
 
     public void setUniform(String name, Color color) {
-<<<<<<< HEAD
-=======
         bind();
->>>>>>> b07eb8b (Some updates idk really)
         glUniform3f(getUniformLocation(name), color.r, color.g, color.b);
     }
 }
