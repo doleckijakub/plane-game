@@ -19,7 +19,7 @@ public class Transform {
         updateMatrix();
     }
 
-    private void updateMatrix() {
+    public void updateMatrix() {
         this.matrix = new Matrix4f().identity()
                 .translate(position)
                 .rotateXYZ(rotation)

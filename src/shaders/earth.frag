@@ -31,18 +31,19 @@ void main(void) {
 
         vec3 color = texture(globeColormap, uv).xyz;
         if (texture(globeHeightmap, uv).a < 0.01) {
-            color = vec3(0.17, 0.8, 1);
+//            color = vec3(0.17, 0.8, 1);
+//
+//            vec3 normal = normalize(position);
+//
+//            vec3 viewDir = normalize(-position);
+//            vec3 reflected = reflect(-lightDir, normal);
+//            float specular = pow(max(dot(viewDir, reflected), 0), 0.5);
+//            color *= 1 + specular;
         }
 
         gl_FragColor = vec4(color * diffuse, 1.0);
     } else {
         gl_FragColor = vec4(0, 0.0, 0.0, 1.0);
     }
-
-    // specular
-//    vec3 viewDir = normalize(-position);
-//    vec3 reflected = reflect(-lightDir, normal);
-//    float specular = pow(max(dot(viewDir, reflected), 0), 0.5);
-
 
 }

@@ -36,7 +36,7 @@ public class Camera {
         updateView();
     }
 
-    private void updateProjection() {
+    public void updateProjection() {
         this.projection.setPerspective(Mathf.toRadians(fov), Engine.getWindow().getAspectRatio(), near,  far);
     }
 

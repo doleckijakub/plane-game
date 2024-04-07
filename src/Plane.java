@@ -41,7 +41,8 @@ public class Plane extends Entity {
 
     @Override
     public void render() {
-//        new Line(transform.getPosition(), transform.getPosition().add(transform.up()), Color.RED).render();
+        System.out.println(transform.getPosition());
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).mul(5), Color.RED).render();
     }
 
 }

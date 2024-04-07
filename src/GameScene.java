@@ -19,9 +19,9 @@ public class GameScene extends Scene {
         this.earth = new Earth();
 
         Camera.setMainCamera(new Camera(
-                new Vector3f(1, 1, 10),
+                new Vector3f(0, 0, 10),
                 new Vector3f(0, 0, 0),
-                30,
+                30f,
                 0.1f,
                 1000f
         ));
@@ -33,7 +33,7 @@ public class GameScene extends Scene {
     @Override
     public void update(float deltaTime) {
         Camera mainCamera = Camera.getMainCamera();
-        if (Keyboard.isAnyKeyPressed(new int[] { GLFW_KEY_UP, GLFW_KEY_DOWN, GLFW_KEY_LEFT, GLFW_KEY_RIGHT })) {
+        if (Keyboard.isAnyKeyPressed(new int[] { GLFW_KEY_UP, GLFW_KEY_DOWN, GLFW_KEY_LEFT, GLFW_KEY_RIGHT, GLFW_KEY_W })) {
             mainCamera.getRotation().add(new Vector3f(
                     (Keyboard.isKeyPressed(GLFW_KEY_DOWN) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_UP) ? 1 : 0),
                     (Keyboard.isKeyPressed(GLFW_KEY_RIGHT) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_LEFT) ? 1 : 0),
@@ -41,6 +41,8 @@ public class GameScene extends Scene {
             ).mul(deltaTime));
             mainCamera.updateView();
         }
+
+
 //        earth.getTransform().setRotation(earth.getTransform().getRotation().plus(new Vector3f(0, 0, Mathf.toRadians(360 * deltaTime))));
 //        plane.update(deltaTime);
 

@@ -8,7 +8,7 @@ uniform sampler2D globeHeightmap;
 
 out vec3 position;
 
-#define HEIGHT_MULTIPLIER 0.1
+#define HEIGHT_MULTIPLIER 0.15
 
 #define PI 3.14159265358979323
 vec2 pointOnSphereToUV(vec3 p) {
@@ -23,7 +23,7 @@ void main(void) {
     gl_Position =
         projection *
         view *
-//        transformation *
+        transformation *
         vec4(in_position * (1 + HEIGHT_MULTIPLIER * texture(globeHeightmap, uv).a), 1.0);
     position = in_position;
 }
