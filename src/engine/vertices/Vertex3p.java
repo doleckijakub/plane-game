@@ -1,12 +1,12 @@
 package engine.vertices;
 
-import engine.math.vec3;
 import engine.Vertex;
+import org.joml.Vector3f;
 
 public class Vertex3p extends Vertex {
-    public vec3 position;
+    public Vector3f position;
 
-    public Vertex3p(vec3 position) {
+    public Vertex3p(Vector3f position) {
         this.position = position;
     }
 

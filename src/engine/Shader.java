@@ -1,9 +1,8 @@
 package engine;
 
 import engine.math.Color;
-import engine.math.mat4;
-import engine.math.vec3;
-import glm_.vec3.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -83,9 +82,11 @@ public class Shader implements AutoCloseable {
         glUniform1i(getUniformLocation(name), binding);
     }
 
-    public void setUniform(String name, mat4 matrix) {
+    public void setUniform(String name, Matrix4f matrix) {
         bind();
-        glUniformMatrix4fv(getUniformLocation(name), true, matrix.toArray());
+        float[] array = new float[16];
+        matrix.get(array);
+        glUniformMatrix4fv(getUniformLocation(name), false, array);
     }
 
     public void setUniform(String name, Color color) {
@@ -93,7 +94,7 @@ public class Shader implements AutoCloseable {
         glUniform3f(getUniformLocation(name), color.r, color.g, color.b);
     }
 
-    public void setUniform(String name, Vec3 v) {
+    public void setUniform(String name, Vector3f v) {
         bind();
         glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
     }

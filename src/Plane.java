@@ -2,9 +2,8 @@ import engine.Entity;
 import engine.Keyboard;
 import engine.math.Color;
 import engine.math.Mathf;
-import engine.math.vec3;
 import engine.Shader;
-import glm_.vec3.Vec3;
+import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
@@ -20,7 +19,7 @@ public class Plane extends Entity {
     private static final float SPEED = Mathf.toRadians(10); // radians/second
 
     public Plane() {
-        super(new vec3(0, 0, FLIGHT_RADIUS), new vec3(Mathf.toRadians(90), 0, 0));
+        super(new Vector3f(0, 0, FLIGHT_RADIUS), new Vector3f(Mathf.toRadians(90), 0, 0));
     }
 
     @Override
@@ -31,7 +30,7 @@ public class Plane extends Entity {
         angleY += SPEED * deltaTime * Mathf.sin(turn);
         angleX += SPEED * deltaTime * Mathf.cos(turn);
 
-        transform.setPosition(new Vec3(
+        transform.setPosition(new Vector3f(
                 Mathf.sin(angleX) * Mathf.cos(angleY),
                 Mathf.cos(angleX),
                 Mathf.sin(angleX) * Mathf.sin(angleY)
@@ -42,7 +41,7 @@ public class Plane extends Entity {
 
     @Override
     public void render() {
-        new Line(transform.getPosition(), transform.getPosition().plus(transform.up()), Color.RED).render();
+//        new Line(transform.getPosition(), transform.getPosition().add(transform.up()), Color.RED).render();
     }
 
 }

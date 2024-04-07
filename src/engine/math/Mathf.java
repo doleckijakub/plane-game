@@ -35,4 +35,8 @@ public class Mathf {
     public static float toRadians(float a) {
         return (float) Math.toRadians(a);
     }
+
+    public static float sqrt(float v) {
+        return (float) Math.sqrt(v);
+    }
 }

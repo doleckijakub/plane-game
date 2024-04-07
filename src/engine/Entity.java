@@ -1,13 +1,13 @@
 package engine;
 
 import engine.math.Transform;
-import engine.math.vec3;
+import org.joml.Vector3f;
 
 public abstract class Entity {
 
     protected Transform transform;
 
-    public Entity(vec3 position, vec3 rotation) {
+    public Entity(Vector3f position, Vector3f rotation) {
         this.transform = new Transform(position, rotation);
     }
 

@@ -1,14 +1,14 @@
 package engine.vertices;
 
-import engine.math.vec2;
-import engine.math.vec3;
 import engine.Vertex;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 public class Vertex3p2uv extends Vertex {
-    public vec3 position;
-    public vec2 uv;
+    public Vector3f position;
+    public Vector2f uv;
 
-    public Vertex3p2uv(vec3 position, vec2 uv) {
+    public Vertex3p2uv(Vector3f position, Vector2f uv) {
         this.position = position;
         this.uv = uv;
     }

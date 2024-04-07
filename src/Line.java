@@ -1,12 +1,12 @@
 import engine.Entity;
 import engine.Renderer;
 import engine.math.Color;
-import engine.math.vec3;
 import engine.IndexBuffer;
 import engine.Shader;
 import engine.VertexArray;
 import engine.VertexBuffer;
 import engine.vertices.Vertex3p;
+import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 
@@ -17,8 +17,8 @@ public class Line extends Entity {
     private final VertexArray vao;
     private final IndexBuffer ibo;
 
-    public Line(vec3 start, vec3 end, Color color) {
-        super(vec3.ZERO, vec3.ZERO);
+    public Line(Vector3f start, Vector3f end, Color color) {
+        super(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
 
         this.color = color;
 

@@ -1,5 +1,8 @@
 package engine.math;
 
+import engine.Engine;
+import org.joml.*;
+
 public class Camera {
 
     private static Camera mainCamera;
@@ -12,36 +15,42 @@ public class Camera {
         return mainCamera;
     }
 
-    private vec3 position;
-    private vec3 rotation;
-    private float fov, near, far;
+    private Vector3f position;
+    private Vector3f rotation;
+    private float fov; // degrees
+    private float near, far;
 
-    private mat4 projection, view;
+    private Matrix4f projection, view;
 
-    public Camera(vec3 position, vec3 rotation, float fov, float near, float far) {
+    public Camera(Vector3f position, Vector3f rotation, float fov, float near, float far) {
         this.position = position;
         this.rotation = rotation;
         this.fov = fov;
         this.near = near;
         this.far = far;
 
+        this.projection = new Matrix4f();
+        this.view = new Matrix4f();
+
         updateProjection();
         updateView();
     }
 
     private void updateProjection() {
-        this.projection = mat4.projection(fov, near, far);
+        this.projection.setPerspective(Mathf.toRadians(fov), Engine.getWindow().getAspectRatio(), near,  far);
     }
 
-    private void updateView() {
-        this.view = mat4.view(position, rotation);
+    public void updateView() {
+        this.view = new Matrix4f().identity()
+                .rotateXYZ(rotation)
+                .translate(-position.x, -position.y, -position.z);
     }
 
-    public vec3 getPosition() {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public vec3 getRotation() {
+    public Vector3f getRotation() {
         return rotation;
     }
 
@@ -57,20 +66,20 @@ public class Camera {
         return far;
     }
 
-    public mat4 getProjection() {
+    public Matrix4f getProjection() {
         return projection;
     }
 
-    public mat4 getView() {
+    public Matrix4f getView() {
         return view;
     }
 
-    public void setPosition(vec3 position) {
+    public void setPosition(Vector3f position) {
         this.position = position;
         updateView();
     }
 
-    public void setRotation(vec3 rotation) {
+    public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
         updateView();
     }
@@ -88,13 +97,6 @@ public class Camera {
     public void setFar(float far) {
         this.far = far;
         updateProjection();
-    }
-
-    public void lookAtOrigin() {
-        vec3 direction = position.normalized();
-        float yaw = Mathf.atan2(direction.z, direction.x);
-        float pitch = Mathf.asin(direction.y);
-        setRotation(new vec3(pitch, yaw, 0));
     }
 
 }

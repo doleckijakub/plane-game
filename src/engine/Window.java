@@ -106,4 +106,8 @@ public class Window implements AutoCloseable {
     public void pollEvents() {
         glfwPollEvents();
     }
+
+    public float getAspectRatio() {
+        return (float) width / (float) height;
+    }
 }

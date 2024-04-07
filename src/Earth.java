@@ -1,7 +1,8 @@
 import engine.*;
-import engine.math.vec2;
-import engine.math.vec3;
 import engine.vertices.Vertex3p;
+import engine.math.Mathf;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 
@@ -33,9 +34,9 @@ public class Earth extends Entity {
         private final VertexArray vao;
         private final IndexBuffer ibo;
 
-        private Face(vec3 normal) {
-            vec3 axisA = new vec3(normal.y, normal.z, normal.x);
-            vec3 axisB = vec3.cross(normal, axisA);
+        private Face(Vector3f normal) {
+            Vector3f axisA = new Vector3f(normal.y, normal.z, normal.x);
+            Vector3f axisB = new Vector3f(normal).cross(axisA);
 
             Vertex3p[] vertices = new Vertex3p[RES * RES];
             int[] indices = new int[INDEX_COUNT];
@@ -43,17 +44,17 @@ public class Earth extends Entity {
             for (int i = 0, y = 0; y < RES; y++) {
                 for (int x = 0; x < RES; x++) {
                     int vertexIndex = x + y * RES;
-                    vec2 t = new vec2(x, y).times(1.f / (RES - 1.f));
-                    vec3 p = normal
-                            .plus(axisA.times(2 * t.x - 1))
-                            .plus(axisB.times(2 * t.y - 1));
-                    vec3 p2 = new vec3(p.x * p.x, p.y * p.y, p.z * p.z);
-                    vec3 pn = new vec3(
-                            p.x * (float) Math.sqrt(1f - (p2.y + p2.z) / 2f + (p2.y * p2.z) / 3),
-                            p.y * (float) Math.sqrt(1f - (p2.z + p2.x) / 2f + (p2.z * p2.x) / 3),
-                            p.z * (float) Math.sqrt(1f - (p2.x + p2.y) / 2f + (p2.x * p2.y) / 3)
+                    Vector2f t = new Vector2f(x, y).mul(1.f / (RES - 1.f));
+                    Vector3f p = new Vector3f(normal)
+                            .add(new Vector3f(axisA).mul(2 * t.x - 1))
+                            .add(new Vector3f(axisB).mul(2 * t.y - 1));
+                    Vector3f p2 = new Vector3f(p.x * p.x, p.y * p.y, p.z * p.z);
+                    Vector3f pn = new Vector3f(
+                            p.x * Mathf.sqrt(1f - (p2.y + p2.z) / 2f + (p2.y * p2.z) / 3),
+                            p.y * Mathf.sqrt(1f - (p2.z + p2.x) / 2f + (p2.z * p2.x) / 3),
+                            p.z * Mathf.sqrt(1f - (p2.x + p2.y) / 2f + (p2.x * p2.y) / 3)
                     );
-                    vec2 uv = new vec2((float) (1 - (Math.atan2(pn.z, pn.x) / Math.PI + 1) / 2), (float) (Math.asin(pn.y) / Math.PI + 0.5));
+                    // Vector2f uv = new Vector2f((float) (1 - (Math.atan2(pn.z, pn.x) / Math.PI + 1) / 2), (float) (Math.asin(pn.y) / Math.PI + 0.5));
                     vertices[vertexIndex] = new Vertex3p(pn);
 
                     if (x != RES - 1 && y != RES - 1) {
@@ -84,22 +85,22 @@ public class Earth extends Entity {
         }
     }
 
-    private static float pointOnSphereToHeight(vec3 p) {
+    private static float pointOnSphereToHeight(Vector3f p) {
         return 0;
     }
 
     Face[] faces;
 
     public Earth() {
-        super(vec3.ZERO, vec3.ZERO);
+        super(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
 
         faces = new Face[] {
-                new Face(vec3.UP),
-                new Face(vec3.DOWN),
-                new Face(vec3.LEFT),
-                new Face(vec3.RIGHT),
-                new Face(vec3.FORWARD),
-                new Face(vec3.BACK)
+                new Face(new Vector3f(0, +1, 0)),
+                new Face(new Vector3f(0, -1, 0)),
+                new Face(new Vector3f(+1, 0, 0)),
+                new Face(new Vector3f(-1, 0, 0)),
+                new Face(new Vector3f(0, 0, +1)),
+                new Face(new Vector3f(0, 0, -1))
         };
     }
 
