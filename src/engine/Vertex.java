@@ -1,4 +1,4 @@
-package engine.renderer;
+package engine;
 
 public abstract class Vertex {
 

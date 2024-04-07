@@ -1,4 +1,4 @@
-package engine.renderer;
+package engine;
 
 import static org.lwjgl.opengl.GL30.*;
 

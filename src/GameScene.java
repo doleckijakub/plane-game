@@ -1,71 +1,54 @@
-import engine.api.*;
+import engine.Keyboard;
+import engine.Renderer;
+import engine.Scene;
 import engine.math.*;
+import engine.Shader;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class GameScene extends Scene {
 
-    private final static float axisLength = 100.f;
-    private final Axis axisX, axisY, axisZ;
-
+    private final Plane plane;
     private final Earth earth;
-
-    private final Camera camera;
+    private vec3 lightPosition;
 
     public GameScene() {
-        this.axisX = new Axis(new vec3(axisLength, 0, 0), Color.RED);
-        this.axisY = new Axis(new vec3(0, axisLength, 0), Color.GREEN);
-        this.axisZ = new Axis(new vec3(0, 0, axisLength), Color.BLUE);
+        this.plane = new Plane();
 
         this.earth = new Earth();
 
-        this.camera = new Camera(
-                new vec3(1, 1, 4),
+        Camera.setMainCamera(new Camera(
+                new vec3(1, 1, 10),
                 new vec3(0, 0, 0),
-                70,
+                30,
                 0.1f,
                 1000f
-        );
+        ));
+
+        this.lightPosition = new vec3(10, 5, 3);
+        Earth.shader.setUniform("lightPosition", this.lightPosition);
     }
 
     @Override
     public void update(float deltaTime) {
-        this.camera.setPosition(this.camera.getPosition().plus(
-                new vec3(
-                    (Keyboard.isKeyPressed(GLFW_KEY_D) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_A) ? 1 : 0),
-                    (Keyboard.isKeyPressed(GLFW_KEY_Q) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_E) ? 1 : 0),
-                    (Keyboard.isKeyPressed(GLFW_KEY_S) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_W) ? 1 : 0)
-                ).times(deltaTime)
-        ));
-
-        if (Keyboard.isAnyKeyPressed(new int[] { GLFW_KEY_D, GLFW_KEY_A, GLFW_KEY_Q, GLFW_KEY_E, GLFW_KEY_W, GLFW_KEY_S })) {
-            System.out.print("pos: ");
-            System.out.println(this.camera.getPosition());
+        Camera mainCamera = Camera.getMainCamera();
+        if (Keyboard.isAnyKeyPressed(new int[] { GLFW_KEY_UP, GLFW_KEY_DOWN, GLFW_KEY_LEFT, GLFW_KEY_RIGHT })) {
+            mainCamera.setRotation(mainCamera.getRotation().plus(new vec3(
+                    (Keyboard.isKeyPressed(GLFW_KEY_UP) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_DOWN) ? 1 : 0),
+                    0,
+                    (Keyboard.isKeyPressed(GLFW_KEY_LEFT) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_RIGHT) ? 1 : 0)
+            )));
         }
+//        earth.getTransform().setRotation(earth.getTransform().getRotation().plus(new vec3(0, 0, Mathf.toRadians(360 * deltaTime))));
+//        plane.update(deltaTime);
 
-        this.camera.setRotation(this.camera.getRotation().plus(
-                new vec3(
-                        (Keyboard.isKeyPressed(GLFW_KEY_UP) ? 1 : 0)    - (Keyboard.isKeyPressed(GLFW_KEY_DOWN) ? 1 : 0),
-                        (Keyboard.isKeyPressed(GLFW_KEY_RIGHT) ? 1 : 0) - (Keyboard.isKeyPressed(GLFW_KEY_LEFT) ? 1 : 0),
-                        0
-                ).times(30 * deltaTime)
-        ));
-
-        if (Keyboard.isAnyKeyPressed(new int[] { GLFW_KEY_UP, GLFW_KEY_DOWN, GLFW_KEY_RIGHT, GLFW_KEY_LEFT })) {
-            System.out.print("rot: ");
-            System.out.println(this.camera.getRotation());
-        }
-
-        this.camera.setFov(
-                this.camera.getFov()
-                        + (Keyboard.isKeyPressed(GLFW_KEY_EQUAL) ? 1 : 0)
-                        - (Keyboard.isKeyPressed(GLFW_KEY_MINUS) ? 1 : 0)
-        );
-
-        if (Keyboard.isAnyKeyPressed(new int[] { GLFW_KEY_EQUAL, GLFW_KEY_MINUS })) {
-            System.out.print("fov: ");
-            System.out.println(this.camera.getFov());
-        }
+//        vec3 cameraPosition = Camera.getMainCamera().getPosition();
+//        cameraPosition.y = plane.getTransform().getPosition().y;
+//        Camera.getMainCamera().setPosition(cameraPosition);
+//
+//        vec3 cameraRotation = Camera.getMainCamera().getRotation();
+//        cameraRotation.x = 1; // Mathf.asin(plane.getTransform().getPosition().y);
+//        Camera.getMainCamera().setRotation(cameraRotation);
     }
 
     @Override
@@ -73,19 +56,14 @@ public class GameScene extends Scene {
         Renderer.clearDepthBuffer();
         Renderer.clearColorBuffer(new Color(0.17f, 0.23f, 0.97f));
 
-        Axis.shader.setUniform("projection", camera.getProjection());
-        Axis.shader.setUniform("view", camera.getView());
-        {
-            this.axisX.render();
-            this.axisY.render();
-            this.axisZ.render();
+        for (Shader shader : new Shader[] { Line.shader, Earth.shader, Plane.shader }) {
+            shader.setUniform("projection", Camera.getMainCamera().getProjection());
+            shader.setUniform("view", Camera.getMainCamera().getView());
         }
 
-        Earth.shader.setUniform("projection", camera.getProjection());
-        Earth.shader.setUniform("view", camera.getView());
-        {
-            this.earth.render();
-        }
+        new Line(vec3.ZERO, lightPosition, Color.CYAN).render();
+        this.earth.render();
+        plane.render();
     }
 
 }

@@ -1,8 +1,9 @@
-package engine.renderer;
+package engine;
 
 import engine.math.Color;
 import engine.math.mat4;
 import engine.math.vec3;
+import glm_.vec3.Vec3;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -92,7 +93,7 @@ public class Shader implements AutoCloseable {
         glUniform3f(getUniformLocation(name), color.r, color.g, color.b);
     }
 
-    public void setUniform(String name, vec3 v) {
+    public void setUniform(String name, Vec3 v) {
         bind();
         glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
     }

@@ -1,10 +1,6 @@
-package engine.api;
+package engine;
 
 import engine.events.*;
-
-import java.awt.*;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public final class Engine {
 

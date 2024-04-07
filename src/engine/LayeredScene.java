@@ -1,6 +1,4 @@
-package engine.api;
-
-import engine.events.*;
+package engine;
 
 public class LayeredScene extends Scene {
 

@@ -1,4 +1,4 @@
-package engine.api;
+package engine;
 
 import engine.math.Color;
 

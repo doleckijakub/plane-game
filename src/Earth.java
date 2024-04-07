@@ -1,9 +1,7 @@
-import engine.api.Entity;
-import engine.api.Renderer;
+import engine.*;
 import engine.math.vec2;
 import engine.math.vec3;
-import engine.renderer.*;
-import engine.renderer.vertices.Vertex3p;
+import engine.vertices.Vertex3p;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 
@@ -11,11 +9,16 @@ public class Earth extends Entity {
 
     public static final Shader shader = new Shader("src/shaders/earth.vert", "src/shaders/earth.frag");
 
-    public static final Image globeHeightmapImage = new Image("assets/heightmaps/gebco_08_rev_elev_2160x1080_with_normals.png");
-    public static final Texture globeHeightmapTexture = new Texture(globeHeightmapImage);
+    private static final boolean HIGH_RES = true;
 
-    public static final Image globeColormapImage = new Image("assets/colormaps/world.200408.3x2160x1080.png");
-    public static final Texture globeColorTexture = new Texture(globeColormapImage);
+    public static final Texture globeHeightmapTexture = new Texture(
+            HIGH_RES
+                    ? "assets/heightmaps/gebco_08_rev_elev_21600x10800_with_normals.png"
+                    : "assets/heightmaps/gebco_08_rev_elev_2160x1080_with_normals.png"
+    );
+    public static final Texture globeColorTexture = new Texture(
+            "assets/colormaps/world.200408.3x2160x1080.png"
+    );
 
     static {
         shader.setUniform("globeHeightmap", globeHeightmapTexture, 0);
@@ -24,7 +27,7 @@ public class Earth extends Entity {
 
     private static class Face {
 
-        private static final int RES = 128;
+        private static final int RES = 1024;
         private static final int INDEX_COUNT = (RES - 1) * (RES - 1) * 6;
 
         private final VertexArray vao;
@@ -88,7 +91,7 @@ public class Earth extends Entity {
     Face[] faces;
 
     public Earth() {
-        super(vec3.ZERO);
+        super(vec3.ZERO, vec3.ZERO);
 
         faces = new Face[] {
                 new Face(vec3.UP),
@@ -105,6 +108,9 @@ public class Earth extends Entity {
 
     @Override
     public void render() {
+//        shader.bind();
+        shader.setUniform("transformation", transform.getMatrix());
+
         for (Face face : faces) {
             face.render();
         }

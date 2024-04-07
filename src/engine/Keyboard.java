@@ -1,4 +1,4 @@
-package engine.api;
+package engine;
 
 import engine.events.KeyPressedEvent;
 import engine.events.KeyReleasedEvent;

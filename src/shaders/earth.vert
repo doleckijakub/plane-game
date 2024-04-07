@@ -23,6 +23,7 @@ void main(void) {
     gl_Position =
         projection *
         view *
+//        transformation *
         vec4(in_position * (1 + HEIGHT_MULTIPLIER * texture(globeHeightmap, uv).a), 1.0);
     position = in_position;
 }

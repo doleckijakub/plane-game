@@ -2,6 +2,16 @@ package engine.math;
 
 public class Camera {
 
+    private static Camera mainCamera;
+
+    public static void setMainCamera(Camera mainCamera) {
+        Camera.mainCamera = mainCamera;
+    }
+
+    public static Camera getMainCamera() {
+        return mainCamera;
+    }
+
     private vec3 position;
     private vec3 rotation;
     private float fov, near, far;
@@ -79,4 +89,12 @@ public class Camera {
         this.far = far;
         updateProjection();
     }
+
+    public void lookAtOrigin() {
+        vec3 direction = position.normalized();
+        float yaw = Mathf.atan2(direction.z, direction.x);
+        float pitch = Mathf.asin(direction.y);
+        setRotation(new vec3(pitch, yaw, 0));
+    }
+
 }

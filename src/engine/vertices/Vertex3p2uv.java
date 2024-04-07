@@ -1,8 +1,8 @@
-package engine.renderer.vertices;
+package engine.vertices;
 
 import engine.math.vec2;
 import engine.math.vec3;
-import engine.renderer.Vertex;
+import engine.Vertex;
 
 public class Vertex3p2uv extends Vertex {
     public vec3 position;
