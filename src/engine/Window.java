@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window implements AutoCloseable {
@@ -36,6 +37,7 @@ public class Window implements AutoCloseable {
         glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_SAMPLES, 4);
 
         this.window = glfwCreateWindow(width, height, title, NULL, NULL);
         assert window != NULL;
@@ -70,6 +72,7 @@ public class Window implements AutoCloseable {
 
         glViewport(0, 0, width, height);
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_MULTISAMPLE);
         glfwMakeContextCurrent(window);
 //        glfwSwapInterval(1); // vsync
         glfwShowWindow(window);

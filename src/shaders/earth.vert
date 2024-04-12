@@ -8,7 +8,7 @@ uniform sampler2D globeHeightmap;
 
 out vec3 position;
 
-#define HEIGHT_MULTIPLIER 0.15
+#define HEIGHT_MULTIPLIER 0.05
 
 #define PI 3.14159265358979323
 vec2 pointOnSphereToUV(vec3 p) {

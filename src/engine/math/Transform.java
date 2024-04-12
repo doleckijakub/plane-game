@@ -1,7 +1,6 @@
 package engine.math;
 
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import org.joml.*;
 
 public class Transform {
 
@@ -57,27 +56,33 @@ public class Transform {
         updateMatrix();
     }
 
-    public Vector3f forward() {
-        float yaw = rotation.y;
-        float pitch = rotation.x;
+    private Vector3f direction(float x, float y, float z) {
+        Quaternionf quaternion = new Quaternionf().rotateXYZ(rotation.x, rotation.y, rotation.z);
+        return quaternion.transform(new Vector3f(x, y, z));
+    }
 
-        float x = -Mathf.sin(yaw) * Mathf.cos(pitch);
-        float y = Mathf.sin(pitch);
-        float z = Mathf.cos(yaw) * Mathf.cos(pitch);
+    public Vector3f left() {
+        return direction(-1, 0, 0);
+    }
 
-        return new Vector3f(x, y, z);
+    public Vector3f right() {
+        return direction(1, 0, 0);
+    }
+
+    public Vector3f down() {
+        return direction(0, -1, 0);
     }
 
     public Vector3f up() {
-        float yaw = rotation.y;
-        float pitch = rotation.x;
-        float roll = rotation.x;
+        return direction(0, 1, 0);
+    }
 
-        float x = -Mathf.sin(roll) * Mathf.sin(yaw) + Mathf.cos(roll) * Mathf.sin(pitch) * Mathf.cos(yaw);
-        float y = Mathf.cos(roll) * Mathf.cos(pitch);
-        float z = Mathf.cos(roll) * Mathf.sin(yaw) + Mathf.sin(roll) * Mathf.sin(pitch) * Mathf.cos(yaw);
+    public Vector3f forward() {
+        return direction(0, 0, -1);
+    }
 
-        return new Vector3f(x, y, z);
+    public Vector3f backward() {
+        return direction(0, 0, 1);
     }
 
 }

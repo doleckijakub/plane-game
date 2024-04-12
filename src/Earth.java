@@ -8,6 +8,8 @@ import static org.lwjgl.opengl.GL11.GL_FLOAT;
 
 public class Earth extends Entity {
 
+    public static final float RADIUS = 1.1f;
+
     public static final Shader shader = new Shader("src/shaders/earth.vert", "src/shaders/earth.frag");
 
     private static final boolean HIGH_RES = true;
@@ -28,7 +30,7 @@ public class Earth extends Entity {
 
     private static class Face {
 
-        private static final int RES = 1024;
+        private static final int RES = 256;
         private static final int INDEX_COUNT = (RES - 1) * (RES - 1) * 6;
 
         private final VertexArray vao;

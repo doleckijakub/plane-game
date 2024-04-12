@@ -1,48 +1,44 @@
 import engine.Entity;
-import engine.Keyboard;
 import engine.math.Color;
-import engine.math.Mathf;
 import engine.Shader;
+import engine.math.Mathf;
+import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
-
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 
 public class Plane extends Entity {
 
-    private static final float FLIGHT_RADIUS = 2.f;
+    private final static float TURN_SPEED = 10;
+    private final static float FLIGHT_SPEED = 0.1f;
 
-    private static final float TURN_SPEED = Mathf.toRadians(30); // radians/second
-    private float turn = 0.f;
-    private float angleY = 0, angleX = 0;
-
-    private static final float SPEED = Mathf.toRadians(10); // radians/second
+    private float elevation = 0;
+    private float turn = 0;
+    private float speed = 0;
 
     public Plane() {
-        super(new Vector3f(0, 0, FLIGHT_RADIUS), new Vector3f(Mathf.toRadians(90), 0, 0));
+        super(new Vector3f(0, Earth.RADIUS, 0), new Vector3f(0));
     }
 
     @Override
     public void update(float deltaTime) {
-        if (Keyboard.isKeyPressed(GLFW_KEY_A)) turn -= TURN_SPEED * deltaTime;
-        if (Keyboard.isKeyPressed(GLFW_KEY_D)) turn += TURN_SPEED * deltaTime;
-
-        angleY += SPEED * deltaTime * Mathf.sin(turn);
-        angleX += SPEED * deltaTime * Mathf.cos(turn);
-
-        transform.setPosition(new Vector3f(
-                Mathf.sin(angleX) * Mathf.cos(angleY),
-                Mathf.cos(angleX),
-                Mathf.sin(angleX) * Mathf.sin(angleY)
-        ));
+        transform.getRotation().x += deltaTime;
+        transform.getRotation().y += deltaTime;
+        transform.getRotation().z += deltaTime;
+        transform.updateMatrix();
     }
 
     public static final Shader shader = new Shader("src/shaders/plane.vert", "src/shaders/plane.frag");
 
     @Override
     public void render() {
-        System.out.println(transform.getPosition());
-        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).mul(5), Color.RED).render();
+//        System.out.println(transform.getPosition());
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).add(transform.right()), Color.CYAN).render();
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).add(transform.up()), Color.MAGENTA).render();
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).add(transform.backward()), Color.YELLOW).render();
+
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).add(1, 0, 0), Color.RED).render();
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).add(0, 1, 0), Color.GREEN).render();
+        new Line(transform.getPosition(), new Vector3f(transform.getPosition()).add(0, 0, 1), Color.BLUE).render();
     }
 
 }
