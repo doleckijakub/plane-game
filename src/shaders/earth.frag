@@ -20,6 +20,7 @@ void main(void) {
     vec3 lightDir = normalize(lightPosition - position);
     vec3 normalPos = normalize(position);
     float diffuse = dot(normalPos, lightDir);
+    diffuse = 1.0;
     if (diffuse > 0) {
         vec3 up = vec3(0, 1, 0);
         vec3 tangent = normalize(cross(normalPos, up));
@@ -28,6 +29,7 @@ void main(void) {
         vec3 normalTex = texture(globeHeightmap, uv).xyz * 2 - 1;
         vec3 normal = normalTex.g * tangent + normalTex.r * bitangent + normalTex.b * normalPos;
         diffuse *= max(dot(normal, lightDir), 0);
+        diffuse = 1.0;
 
         vec3 color = texture(globeColormap, uv).xyz;
         if (texture(globeHeightmap, uv).a < 0.01) {
