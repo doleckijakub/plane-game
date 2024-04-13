@@ -85,4 +85,12 @@ public class Transform {
         return direction(0, 0, 1);
     }
 
+    public void rotate(float x, float y, float z) {
+        Quaternionf additionalRotation = new Quaternionf().rotateXYZ(x, y, z);
+        Quaternionf currentRotation = new Quaternionf().rotateXYZ(rotation.x, rotation.y, rotation.z);
+        currentRotation.mul(additionalRotation);
+        currentRotation.getEulerAnglesXYZ(rotation);
+        updateMatrix();
+    }
+
 }
